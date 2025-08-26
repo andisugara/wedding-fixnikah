@@ -1,39 +1,17 @@
 import React, { useState } from "react";
-import type { Message } from "../types";
 import ProfileImg from "../assets/images/profile.jpg";
+import { useMessages } from "../hooks/useSupabase";
 
 export const MessagesSection: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: 1,
-      name: "Sarah & Family",
-      message:
-        "Selamat untuk kalian berdua! Semoga menjadi keluarga yang sakinah mawaddah warahmah. Bahagia selalu!",
-      time: "2 jam yang lalu",
-    },
-    {
-      id: 2,
-      name: "Ahmad",
-      message:
-        "Congratulations! Wishing you both a lifetime of happiness and love.",
-      time: "5 jam yang lalu",
-    },
-  ]);
-
+  const { messages, loading, error, addMessage, hasSubmitted } = useMessages();
   const [newMessage, setNewMessage] = useState({ name: "", message: "" });
 
-  const addMessage = () => {
+  const handleAddMessage = async () => {
     if (newMessage.name && newMessage.message) {
-      setMessages([
-        {
-          id: messages.length + 1,
-          name: newMessage.name,
-          message: newMessage.message,
-          time: "Baru saja",
-        },
-        ...messages,
-      ]);
-      setNewMessage({ name: "", message: "" });
+      const success = await addMessage(newMessage.name, newMessage.message);
+      if (success) {
+        setNewMessage({ name: "", message: "" });
+      }
     }
   };
 
@@ -66,13 +44,25 @@ export const MessagesSection: React.FC = () => {
               className="w-full bg-gray-800 text-white rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-600"
             />
             <button
-              onClick={addMessage}
-              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors font-semibold"
+              onClick={handleAddMessage}
+              className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg transition-colors font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+              disabled={
+                loading ||
+                hasSubmitted ||
+                !newMessage.name ||
+                !newMessage.message
+              }
             >
-              Kirim Ucapan
+              {loading
+                ? "Mengirim..."
+                : hasSubmitted
+                ? "Terima Kasih"
+                : "Kirim Ucapan"}
             </button>
           </div>
         </div>
+
+        {error && <div className="text-red-500 mb-4 text-center">{error}</div>}
 
         <div className="space-y-4">
           {messages.map((msg) => (
@@ -96,6 +86,13 @@ export const MessagesSection: React.FC = () => {
               </div>
             </div>
           ))}
+
+          {loading && (
+            <div className="text-center py-8">
+              <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+              <p className="text-white/60">Memuat pesan...</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -1,7 +1,14 @@
 import React from "react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
-export const ClosingStatementSection: React.FC = () => (
+interface ClosingStatementSectionProps {
+  weddingDetails: WeddingDetails | null;
+}
+
+export const ClosingStatementSection: React.FC<ClosingStatementSectionProps> = ({ weddingDetails }) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="relative py-16 px-4 md:px-8">
     <div className="absolute inset-0">
       <div className="absolute inset-0  z-10"></div>
@@ -36,4 +43,5 @@ export const ClosingStatementSection: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};

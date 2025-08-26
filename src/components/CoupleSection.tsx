@@ -1,10 +1,17 @@
 import React from "react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 import Groom from "../assets/images/groom.jpg";
 import Bride from "../assets/images/bride.jpg";
 import IntimateImg from "../assets/images/intimate.jpg";
 
-export const CoupleSection: React.FC = () => (
+interface CoupleSectionProps {
+  weddingDetails: WeddingDetails | null;
+}
+
+export const CoupleSection: React.FC<CoupleSectionProps> = ({ weddingDetails }) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="relative py-16 px-4 md:px-8">
     <div className="absolute inset-0">
       <div className="absolute inset-0  z-10"></div>
@@ -63,4 +70,5 @@ export const CoupleSection: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};

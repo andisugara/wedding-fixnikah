@@ -1,14 +1,19 @@
 import React from "react";
 import { NetflixHeaderCover } from "./NetflixHeaderCover";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
 interface CoverScreenProps {
+  weddingDetails: WeddingDetails | null;
   setCurrentScreen: (screen: string) => void;
 }
 
 export const CoverScreen: React.FC<CoverScreenProps> = ({
+  weddingDetails,
   setCurrentScreen,
-}) => (
+}) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="min-h-screen bg-black relative overflow-hidden">
     {/* Background with gradient overlay */}
     <div className="absolute inset-0">
@@ -48,4 +53,5 @@ export const CoverScreen: React.FC<CoverScreenProps> = ({
       </div>
     </div>
   </div>
-);
+  );
+};

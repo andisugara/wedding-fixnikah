@@ -1,7 +1,14 @@
 import React from "react";
-import { loveStory } from "../data/weddingData";
+import type { LoveStoryItem } from "../types";
 
-export const LoveStorySection: React.FC = () => (
+interface LoveStorySectionProps {
+  loveStory: LoveStoryItem[];
+}
+
+export const LoveStorySection: React.FC<LoveStorySectionProps> = ({ loveStory }) => {
+  if (!loveStory || loveStory.length === 0) return null;
+  
+  return (
   <div className="bg-black py-16 px-4 md:px-8">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-white text-3xl md:text-4xl font-bold text-center mb-12">
@@ -38,4 +45,5 @@ export const LoveStorySection: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};

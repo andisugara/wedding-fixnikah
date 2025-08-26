@@ -1,18 +1,25 @@
 import React from "react";
 import NikahFix from "../assets/images/nikahfix.png";
 import ProfileImg from "../assets/images/profile.jpg";
+import type { Guest } from "../types";
 
 interface NetflixHeaderProps {
   setActiveSection: (section: string | null) => void;
   setShowRSVP: (show: boolean) => void;
   setCurrentScreen: (screen: string) => void;
+  guest: Guest | null;
 }
 
 export const NetflixHeader: React.FC<NetflixHeaderProps> = ({
   setActiveSection,
   setShowRSVP,
   setCurrentScreen,
-}) => (
+  guest,
+}) => {
+  // Use avatar from guest data if available
+  const avatarSrc = guest?.avatar || ProfileImg;
+
+  return (
   <header className="fixed top-0 w-full bg-black/95 backdrop-blur-sm z-50 border-b border-gray-800">
     <div className="flex items-center justify-between px-4 md:px-8 py-4">
       <div className="flex items-center space-x-8">
@@ -75,12 +82,13 @@ export const NetflixHeader: React.FC<NetflixHeaderProps> = ({
           onClick={() => setCurrentScreen("profiles")}
         >
           <img
-            src={ProfileImg}
-            alt="Profile"
+            src={avatarSrc}
+            alt={guest?.name || "Profile"}
             className="w-full h-full object-cover"
           />
         </div>
       </div>
     </div>
   </header>
-);
+  );
+};

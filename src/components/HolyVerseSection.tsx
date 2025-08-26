@@ -1,7 +1,14 @@
 import React from "react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
-export const HolyVerseSection: React.FC = () => (
+interface HolyVerseSectionProps {
+  weddingDetails: WeddingDetails | null;
+}
+
+export const HolyVerseSection: React.FC<HolyVerseSectionProps> = ({ weddingDetails }) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="bg-gray-900 py-16 px-4 md:px-8">
     <div className="max-w-4xl mx-auto text-center">
       <h2 className="text-white text-3xl md:text-4xl font-bold mb-12">
@@ -17,4 +24,5 @@ export const HolyVerseSection: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};

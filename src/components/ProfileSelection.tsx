@@ -1,15 +1,28 @@
 import React from "react";
-import { profile } from "../data/weddingData";
-
+import type { Guest } from "../types";
 import LoadingAudio from "../assets/sounds/loading.mp3";
+import ProfileImg from "../assets/images/profile.jpg";
 
 interface ProfileSelectionProps {
+  guest: Guest | null;
   setCurrentScreen: (screen: string) => void;
 }
 
 export const ProfileSelection: React.FC<ProfileSelectionProps> = ({
+  guest,
   setCurrentScreen,
-}) => (
+}) => {
+  // If no guest data is available, use default profile
+  const profile = guest || {
+    id: 0,
+    name: "Guest",
+    avatar: ProfileImg,
+    isMain: true,
+    from: "Wedding Couple",
+    created_at: new Date().toISOString()
+  };
+  
+  return (
   <div className="min-h-screen bg-black flex items-center justify-center">
     <div className="text-center">
       <h1 className="text-white text-5xl font-light mb-12">Who's watching?</h1>
@@ -41,4 +54,5 @@ export const ProfileSelection: React.FC<ProfileSelectionProps> = ({
       </button>
     </div>
   </div>
-);
+  );
+};

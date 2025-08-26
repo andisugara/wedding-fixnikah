@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { Gift, Copy, Check } from "lucide-react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
-export const WeddingGiftSection: React.FC = () => {
+interface WeddingGiftSectionProps {
+  weddingDetails: WeddingDetails | null;
+}
+
+export const WeddingGiftSection: React.FC<WeddingGiftSectionProps> = ({ weddingDetails }) => {
+  if (!weddingDetails) return null;
   const [copied, setCopied] = useState<string | null>(null);
 
   const copyToClipboard = (text: string, type: string) => {

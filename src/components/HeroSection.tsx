@@ -1,12 +1,13 @@
 import React from "react";
 import { Play, Info, Volume2, VolumeX } from "lucide-react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
 interface HeroSectionProps {
   isMuted: boolean;
   setIsMuted: (muted: boolean) => void;
   setShowModal: (show: boolean) => void;
   setActiveSection: (section: string | null) => void;
+  weddingDetails: WeddingDetails | null;
 }
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
@@ -14,7 +15,11 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   setIsMuted,
   setShowModal,
   setActiveSection,
-}) => (
+  weddingDetails,
+}) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="relative h-screen">
     <div className="absolute inset-0">
       <div className="absolute inset-0 bg-gradient-to-r from-black via-black/50 to-transparent z-10"></div>
@@ -88,4 +93,5 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       </div>
     </div>
   </div>
-);
+  );
+};

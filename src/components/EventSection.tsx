@@ -1,8 +1,15 @@
 import React from "react";
 import { Calendar, MapPin, Heart } from "lucide-react";
-import { weddingDetails } from "../data/weddingData";
+import type { WeddingDetails } from "../types";
 
-export const EventSection: React.FC = () => (
+interface EventSectionProps {
+  weddingDetails: WeddingDetails | null;
+}
+
+export const EventSection: React.FC<EventSectionProps> = ({ weddingDetails }) => {
+  if (!weddingDetails) return null;
+  
+  return (
   <div className="bg-gray-900 py-16 px-4 md:px-8">
     <div className="max-w-6xl mx-auto">
       <h2 className="text-white text-3xl md:text-4xl font-bold text-center mb-12">
@@ -63,4 +70,5 @@ export const EventSection: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
